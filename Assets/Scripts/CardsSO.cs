@@ -7,6 +7,7 @@ public class CardsSO : ScriptableObject
 {
     public int CardValue;
     public Sprite CardImage;
+    public Sprite CardBack;
 
     
 }
