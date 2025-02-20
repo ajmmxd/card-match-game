@@ -115,7 +115,7 @@ public class CardValue : MonoBehaviour
     private IEnumerator FlipCardsBack()
     {
         
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
 
         CardAnimator.SetBool("back", true);
         CardAnimator.SetBool("rotate", false);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoardController : MonoBehaviour
 {
@@ -14,17 +15,24 @@ public class BoardController : MonoBehaviour
     public bool Normal;
     public bool Hard;
     public GameObject Restart;
+    private GridLayoutGroup ObjectGrid;
 
 
+
+    private void Start()
+    {
+        ObjectGrid = GetComponent<GridLayoutGroup>();
+    }
     private void Update()
     {
         NumberOfMatches = GameManager.Instance.MatchNumbers;
 
-        GameManager.Instance.matches = GamesPlayed;
+       
 
         if (Easy == true && NumberOfMatches >= 2)
         {
             Restart.SetActive(true);
+            GameManager.Instance.WinGame();
           
             Easy = false;
 
@@ -33,6 +41,7 @@ public class BoardController : MonoBehaviour
         if (Normal == true && NumberOfMatches >= 3) {
 
             Restart.SetActive(true);
+            GameManager.Instance.WinGame();
             Normal = false;
 
         }
@@ -40,6 +49,7 @@ public class BoardController : MonoBehaviour
         if (Hard == true && NumberOfMatches >= 15)
         {
             Restart.SetActive(true);
+            GameManager.Instance.WinGame();
             Hard = false;
 
 
@@ -49,7 +59,10 @@ public class BoardController : MonoBehaviour
 
     public void EasyMode()
     {
+        GameManager.Instance.CurrentScore = 0;
+        ChangeGridConstraintCount(2);
         GamesPlayed++;
+        GameManager.Instance.matches++;
         Easy = true;
         NumberOfMatches = 0;
         GameManager.Instance.MatchNumbers = 0;
@@ -90,7 +103,13 @@ public class BoardController : MonoBehaviour
 
     public void NormalMode()
     {
+        GameManager.Instance.CurrentScore = 0;
+        ChangeGridConstraintCount(3);
+
+
+
         GamesPlayed++;
+        GameManager.Instance.matches++;
         Normal = true;
         NumberOfMatches = 0;
         GameManager.Instance.MatchNumbers = 0;
@@ -120,6 +139,9 @@ public class BoardController : MonoBehaviour
 
     public void HardMode()
     {
+        GameManager.Instance.CurrentScore = 0;
+        ChangeGridConstraintCount(6);
+        GameManager.Instance.matches++;
         GamesPlayed++;
         Hard = true;
         NumberOfMatches = 0;
@@ -149,7 +171,7 @@ public class BoardController : MonoBehaviour
 
     public void PlayAgain()
     {
-        
+        GameManager.Instance.StopWinMusic();
         selectedCards.Clear();
 
        
@@ -162,7 +184,15 @@ public class BoardController : MonoBehaviour
         NumberOfMatches = 0;
         GameManager.Instance.MatchNumbers = 0;
 
+        
        
         Restart.SetActive(false);
     }
+
+
+    public void ChangeGridConstraintCount(int newCount)
+    {
+        ObjectGrid.constraintCount = newCount;
+    }
+
 }
